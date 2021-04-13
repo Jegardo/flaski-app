@@ -4,6 +4,7 @@
     <title>Wordcount</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="../static/main.css">
     <style>
       .container {
         max-width: 1000px;
@@ -20,8 +21,17 @@
             <div class="form-group">
               <input type="text" name="url" class="form-control" id="url-box" placeholder="Enter URL..." style="max-width: 300px;" ng-model="url"required>
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            {% raw %}
+              <button type="submit" class="btn btn-primary" 
+              ng-disabled="loading">{{ submitButtonText }}</button>
+            {% endraw %} 
           </form>
+          <div class="alert alert-danger" role="alert" ng-show='urlerror'>
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            <span>There was an error submitting your URL.<br>
+            Please check to make sure it is valid before trying again.</span>
+          </div>
         </div>
         <div class="col-sm-5 col-sm-offset-1">
           <h2>Frequencies</h2>
@@ -46,11 +56,17 @@
                </tbody>
              </table>
            </div>
+           <img class="col-sm-3 clo-sm-offset-4" src="{{ url_for('static', filename='spinner.gif') }}" ng-show="loading">
         </div>
       </div>
+      <br>
+      <word-count-chart data="wordcounts"></word-count-chart>
     </div>
 	   <br><br>
-	   
+	  
+    <!-- scripts --> 
+    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
